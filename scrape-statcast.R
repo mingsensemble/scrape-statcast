@@ -18,7 +18,7 @@ scrape_statcast <- function(start_date, end_date = NULL) {
     if(start_date > end_date) {
         stop("\n start_date has to come before end_date")
     }
-    # use sc_col_types to adapt to changes
+    # use sc_col_types to adapt to changes in Statcast
     sc_col_types <- list(
         col_character(), # pitch_type
         col_date("%Y-%m-%d"), # game_date
