@@ -4,6 +4,7 @@ url_constructor <- function(start_date, end_date) {
 }
 # =================================
 scrape_statcast <- function(start_date, end_date = NULL) {
+    require(tidyverse)
     # inputs: 
     #  start_date: the first day to download
     #  end_dat: the last day to download; if empty, use today's date
