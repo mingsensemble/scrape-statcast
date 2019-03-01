@@ -117,7 +117,8 @@ scrape_statcast <- function(start_date, end_date = NULL) {
         col_integer(), # post_bat_score
         col_integer(), # post_fld_score
         col_character(), # if_fielding_alignment
-        col_character()  # of_fielding_alignment
+        col_character(),  # of_fielding_alignment
+        col_skip() # last column is empty
     )
     if(end_date - start_date > 7) {
         # break up into chunk if the query is too large
@@ -144,5 +145,16 @@ scrape_statcast <- function(start_date, end_date = NULL) {
                      col_types = sc_col_types)
         )
     }
+    # look up batter id
+    cat("\n Download lookup table from smartfantasybaseball.com\n")
+    lookup_tb <- read_csv("https://www.smartfantasybaseball.com/PLAYERIDMAPCSV",
+                          col_types = cols(.default = "c")
+    )
+    out <- out %>% left_join(lookup_tb %>% select(MLBNAME, MLBID), 
+                     by = c("batter" = 'MLBID')) %>% dplyr::rename(
+                         "batter_name" = "MLBNAME"
+                     )
     return(out)
 }
+
+
